@@ -1,57 +1,44 @@
 ﻿using System;
-using Course221Delegate.Services;
+using System.Collections.Generic;
+using System.Globalization;
+
+using Course221Delegate.Entities;
 
 namespace Course221Delegate
 {
     class Program
     {
-        //Declaração do meu DELEGATE para uma função que recebe 2 números doubles e retorna um double
-        delegate double BinaryNumericOperation(double n1, double n2);
-        delegate void BinaryNumericOperation2(double n1, double n2);
-
-
         static void Main(string[] args)
         {
-            double x = 10;
-            double y = 12;
+            string specifier = "C";
 
-            /*sem o uso do delegate
-            double result1 = CalculationService.Max(x, y);
-            double result2 = CalculationService.Sum(x, y);
-            double result3 = CalculationService.Square(x);
+            CultureInfo cultureIdioma;
 
-            Console.WriteLine(result1);
-            Console.WriteLine(result2);
-            Console.WriteLine(result3);
-            */
+            cultureIdioma = CultureInfo.CreateSpecificCulture("pt-BR");
 
-            //COM o USO do delegate
-            BinaryNumericOperation op = CalculationService.Max;
-            double result1 = op(x, y);
+            List<Products> list = new List<Products>();
+            list.Add(new Products("Tv", 900.00));
+            list.Add(new Products("Mouse", 50.00));
+            list.Add(new Products("Tablet", 350.50));
+            list.Add(new Products("HD Case", 80.90));
 
-            //sintaxe alternartivas
+            //PREDICATO...
+            //É uma função que recebe um objeto e retorna um bool
+            list.RemoveAll(p => p.Price >= 100.0);
 
-            BinaryNumericOperation op2 = new BinaryNumericOperation(CalculationService.Max);
-            double result2 = op2(x, y);
+            //funciona tb
+            //list.RemoveAll(p => p.Price >= 100.0);
 
-            BinaryNumericOperation op3 = CalculationService.Sum;
-            double result3 = op3.Invoke(x, y);
-
-            Console.WriteLine(result1);
-            Console.WriteLine(result2);
-            Console.WriteLine(result3);
-
-            //MUITO LEGA POIS POSSO ADICONAR FUNCOES
-            //222. Multicast delegates
-            
-            BinaryNumericOperation2 op4 = CalculationService.ShowSum;
-            op4 += CalculationService.ShowMax;
-
-            op4.Invoke(x, y);
-
-            //ou simplesmente, funciona da mesma forma
-            //op(x,y);
-
+            Console.WriteLine("--- LISTA DE PRODUTOS COM VALORES ACIMA DE 100.0---");
+            foreach (Products p in list)
+            {
+                Console.WriteLine( "Nome: "
+                    + p.Name
+                    + ", Preço R"
+                    + p.Price.ToString(specifier, cultureIdioma)
+                    );
+                 
+            }
         }
     }
 }
