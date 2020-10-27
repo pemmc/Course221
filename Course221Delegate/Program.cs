@@ -7,6 +7,8 @@ namespace Course221Delegate
     {
         //Declaração do meu DELEGATE para uma função que recebe 2 números doubles e retorna um double
         delegate double BinaryNumericOperation(double n1, double n2);
+        delegate void BinaryNumericOperation2(double n1, double n2);
+
 
         static void Main(string[] args)
         {
@@ -38,6 +40,18 @@ namespace Course221Delegate
             Console.WriteLine(result1);
             Console.WriteLine(result2);
             Console.WriteLine(result3);
+
+            //MUITO LEGA POIS POSSO ADICONAR FUNCOES
+            //222. Multicast delegates
+            
+            BinaryNumericOperation2 op4 = CalculationService.ShowSum;
+            op4 += CalculationService.ShowMax;
+
+            op4.Invoke(x, y);
+
+            //ou simplesmente, funciona da mesma forma
+            //op(x,y);
+
         }
     }
 }
